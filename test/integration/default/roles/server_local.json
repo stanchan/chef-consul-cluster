@@ -1,0 +1,46 @@
+{
+  "name": "server_local",
+  "description": "The server_local role",
+  "json_class": "Chef::Role",
+  "default_attributes": {
+    "consul": {
+      "tls": true,
+      "config": {
+        "path": "/etc/consul/consul.json",
+        "datacenter": "dc1",
+        "encrypt": "CGXC2NsXW4AvuB4h5ODYzQ==",
+        "start_join": [
+          "172.16.1.101",
+          "172.16.1.102",
+          "172.16.1.103"
+        ],
+        "ports": {
+          "https": 8443
+        },
+        "acl_datacenter": "dc1",
+        "acl_master_token": "tC0BGocIesnQkoDY0bHvatoz4GEMVcQd",
+        "acl_default_policy": "deny",
+        "acl_down_policy": "deny",
+        "bootstrap_expect": 3,
+        "ui": true,
+        "ui_dir": "/srv/consul-ui/current",
+        "http_api_response_headers": {
+          "Access-Control-Allow-Origin": "*"
+        }
+      }
+    },
+    "consul-cluster": {
+      "base_url": "https://nexus.chanfx.com/hashicorp/consul"
+    }
+  },
+  "override_attributes": {
+  },
+  "chef_type": "role",
+  "run_list": [
+    "recipe[deps::default]",
+    "recipe[consul-cluster::default]",
+    "recipe[consul-cluster::ui]"
+  ],
+  "env_run_lists": {
+  }
+}

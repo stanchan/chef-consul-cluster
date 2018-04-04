@@ -1,0 +1,85 @@
+---
+driver:
+  name: vagrant
+
+driver_config:
+  customize:
+    natdnsproxy1: "off"
+    natdnshostresolver1: "on"
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: true
+  chef_omnibus_url: http://nexus.chanfx.com/chef/install.sh
+  roles_path: "test/integration/default/roles"
+  environments_path: "test/integration/default/environments"
+  data_bags_path: "test/integration/default/data_bags"
+
+platforms:
+  #- name: centos-6.8
+  #  driver_plugin: vagrant
+  #  driver:
+  #    provider: vmware_fusion
+  #    box: default-centos-68
+  #    box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-6.8_chef-provisionerless.box
+  #    box_check_update: 'true'
+
+  - name: centos-7.2
+    driver_plugin: vagrant
+    driver:
+      provider: vmware_fusion
+      box: default-centos-72
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-7.2_chef-provisionerless.box
+      box_check_update: 'true'
+
+  # - name: ubuntu-14.04
+  #   driver_plugin: vagrant
+  #   driver:
+  #     provider: vmware_fusion
+  #     box: default-ubuntu-1404
+  #     box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_ubuntu-14.04_chef-provisionerless.box
+  #     box_check_update: 'true'
+
+suites:
+  - name: server
+    driver:
+      network:
+      - [ "private_network", {ip: "172.16.1.101"} ]
+      customize:
+        memory: 512
+        cpus: 1
+    run_list:
+      - role[server_local]
+    attributes:
+      localdev: true
+    provisioner:
+      client_rb:
+        environment: local
+  - name: server2
+    driver:
+      network:
+      - [ "private_network", {ip: "172.16.1.102"} ]
+      customize:
+        memory: 512
+        cpus: 1
+    run_list:
+      - role[server_local]
+    attributes:
+      localdev: true
+    provisioner:
+      client_rb:
+        environment: local
+  - name: server3
+    driver:
+      network:
+      - [ "private_network", {ip: "172.16.1.103"} ]
+      customize:
+        memory: 512
+        cpus: 1
+    run_list:
+      - role[server_local]
+    attributes:
+      localdev: true
+    provisioner:
+      client_rb:
+        environment: local

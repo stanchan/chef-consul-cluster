@@ -1,0 +1,66 @@
+{
+  "name": "local",
+  "description": "The local environment",
+  "cookbook_versions": {
+  },
+  "json_class": "Chef::Environment",
+  "chef_type": "environment",
+  "default_attributes": {
+  },
+  "override_attributes": {
+    "deps": {
+      "internal_repo": {
+        "enabled": true
+      },
+      "rhn": {
+        "enabled": false
+      },
+      "chef_client": {
+        "enabled": false,
+        "org_name": "demo"
+      },
+      "push_jobs_client": {
+        "enabled": false
+      },
+      "yum_repo": {
+        "chef": {
+          "url": "https://nexus.chanfx.com/yum/cfx_yum_repo/$releasever",
+          "desc": "Custom Chef Repository"
+        },
+        "epel": {
+          "url": "https://nexus.chanfx.com/yum/epel_yum_repo/$releasever",
+          "desc": "EPEL Mirror Repository"
+        },
+        "pgdg94": {
+          "url": "https://nexus.chanfx.com/yum/pg_yum_repo/pgdg94/$releasever/$basearch",
+          "desc": "PostgreSQL 9.4 $releasever - $basearch"
+        }
+      },
+      "gemrc": {
+        "enabled": true,
+        "source": [
+          "https://nexus.chanfx.com/nexus/content/repositories/rubygems/"
+        ]
+      },
+      "profiles": {
+        "/root": {
+          "environment": {
+            "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt"
+          }
+        }
+      }
+    },
+    "chef_client": {
+      "reload_config": true,
+      "config": {
+        "chef_server_url": "https://chef.chanfx.com/organizations/demo",
+        "ssl_verify_mode": ":verify_peer",
+        "client_fork": true,
+        "environment": "demo"
+      }
+    },
+    "push_jobs": {
+      "reload_config": true
+    }
+  }
+}
